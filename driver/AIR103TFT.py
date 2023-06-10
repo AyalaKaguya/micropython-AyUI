@@ -1,7 +1,7 @@
 import machine
 import time
 import framebuf
-from ST7735 import TFT
+from driver.ST7735 import TFT
 
 
 def RGB(r, g, b):
@@ -64,15 +64,18 @@ class TFT_SPI(framebuf.FrameBuffer):
         self.buffer = bytearray(size[0] * size[1] * 2)
         super().__init__(self.buffer, size[0], size[1], framebuf.RGB565)
         print("[WARN]RGB565: There may be display issues with this color format")
-        
+
         tft = TFT(spi, dc, reset, cs)
         tft.initr()
         tft.rgb(color_mode)
         tft.rotation(1)
-        tft._setwindowloc((size_offset[0],size_offset[1]),
-                          (size_offset[0]+size[0]-1,size_offset[1]+size[1]-1))
+        tft._setwindowloc((size_offset[0], size_offset[1]),
+                          (size_offset[0]+size[0]-1, size_offset[1]+size[1]-1))
         self.tft = tft
-        
+
     def show(self):
         self.tft._writedata(self.buffer)
 
+    @staticmethod
+    def rgb(r, g, b):
+        return RGB(r, g, b)
