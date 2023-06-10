@@ -15,6 +15,7 @@ Activity将会收到以下方法：
 - self.activity.change()    切换当前的Activity
 - self.activity.push()      新增一个Activity，挂起上一个Activity
 - self.activity.pop()       退出当前Activity并删除实例，返回上一个Activity
+- self.activity.create_event()    创建一个事件，由Engine接收
 - self.event.on()           注册事件监听器并绑定当前Activity
 
 以上操作都基于帧，**当前帧产生的各种事件都会在下一帧开始前运行**，并且Activity重写优先于Event监听，该特性要求后端服务程序尽量不要占用过长时间，当触发Activity变化时，余下的Event将不会再触发。
@@ -39,10 +40,10 @@ from ayui import Engine
 engine = Engine(width,height,framebuf,draw_exec)
 ```
 
-width: 目标FrameBuffer的宽
-height: 目标FrameBuffer的高
-framebuf: FrameBuffer对象
-draw_exec: 绘图回调，每一帧绘制结束调用
+- width: 目标FrameBuffer的宽
+- height: 目标FrameBuffer的高
+- framebuf: FrameBuffer对象
+- draw_exec: 绘图回调，每一帧绘制结束调用
 
 Engine提供一个装饰器供注册Activity使用，而所有的Activity必须先注册才能被使用：
 
@@ -87,6 +88,35 @@ uasyncio.run(engine.start(target_fps= 20))
 
 目前Engine所有的函数都是公开的，但这并不意味着你可以随意的调用它们，至少目前阶段这样的调用是无法被预见的。
 
+## Event 事件
+
+除了Active可以创建事件，在**异步**的`Engine`上可以调用`commit`方法来产生事件，如果你的异步符合规范，那么你的代码将会在每帧渲染的间隙得以执行，这意味这事件的产生是线程安全的。
+
+```python
+...
+@engine.register_activity("MainActivity")
+class MainActivity(Activity):
+    def onCreate(self):
+        print("MainActivity Create")
+        self.event.on("click", )
+        
+    def onStart(self):
+        print("MainActivity Start")
+
+    def onClick(self, payload):
+        print("clink", payload)
+...
+async def app_main():
+    engine.commit('click', 'home')
+    await uasyncio.sleep_ms(2000)
+...
+uasyncio.create_task(engine.start(target_fps= 20))
+uasyncio.create_task(app_main())
+uasyncio.get_event_loop().run_forever()
+```
+
+这应该会每两秒输出 `click home`
+
 ## 举个例子
 
 **生命周期**
@@ -123,7 +153,7 @@ class SecondActivity(Activity):
 engine.start_activity_from("MainActivity")
 
 uasyncio.create_task(engine.start(target_fps= 20))
-
+# 你可以在这里创建其他的异步任务以扩展事件等功能
 uasyncio.get_event_loop().run_forever()
 
 """ output
