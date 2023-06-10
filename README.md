@@ -107,8 +107,9 @@ class MainActivity(Activity):
         print("clink", payload)
 ...
 async def app_main():
-    engine.commit('click', 'home')
-    await uasyncio.sleep_ms(2000)
+    while True:
+        engine.commit('click', 'home')
+        await uasyncio.sleep_ms(2000)
 ...
 uasyncio.create_task(engine.start(target_fps= 20))
 uasyncio.create_task(app_main())
