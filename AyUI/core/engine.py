@@ -4,7 +4,7 @@ import gc
 
 from AyUI.core.event import Event
 from AyUI.core.activity import Activity
-from AyUI.core.engine import View
+from AyUI.core.view import View
 from AyUI.core.instance import Instance
 from AyUI.core.control import ActivityCtrl, EventCtrl
 
