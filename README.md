@@ -169,28 +169,29 @@ MainActivity Start
 
 **绘图实例**
 
-画两个点
+实时显示内存占用，这应该会有一个白色的大框包裹一段红色的信息：
 
 ```python
-from views import BasicView
-from drawables import Pixel
+from AyUI import Activity
+from AyUI.views.basic import BasicView
+from AyUI.widgets.memtest import Memtest
 
 @engine.register_activity("MainActivity")
 class MainActivity(Activity):
     def view(self, space):
         return BasicView(
-            Pixel(1),
-            Pixel(1,axis=(3, 6)),
-
-            space=(127, 63),
-            padding=(2, 2, 2, 2),
-            border=1,
-            border_color=1
+            Memtest(tft.rgb(255,0,0)),
+            
+            space = (space[0]-2,space[1]-2),
+            margin= (0,0,0,0),
+            padding=(2,2,2,2),
+            border = 1,
+            border_color = tft.rgb(255,255,255)
         )
-
+    
     def onCreate(self):
-        print("MainActivity Create")
-        
+        print("MainActivity onCreate")
+
     def onStart(self):
-        print("MainActivity Start")
+        print("MainActivity onStart")
 ```

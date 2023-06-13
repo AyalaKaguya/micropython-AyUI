@@ -1,4 +1,4 @@
-from ayui import Drawable
+from AyUI import Drawable
 
 class Pixel(Drawable):
     """基本绘画元素, 一个点"""
