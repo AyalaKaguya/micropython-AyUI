@@ -22,10 +22,9 @@ Activity将会收到以下方法：
 
 Activity事件重写一共有三种：`onCreate`、`onDestroy`和`onStart`，分别对应Activity创建、Activity销毁和Activity启动，其中`onCreate`事件和`onDestroy`事件在整个Activity生命周期内只会被调用一次，而`onStart`事件只要切换到当前Activity就会触发一次。
 
-**TODO**: 绘图部分尚未完成
+此外还有两个绘图重写：`beforeFrame`和`afterFrame`，分别在绘制本帧前执行和绘制本帧后执行，用于配置可能的动画，尽管提供了这两种重写方法，但还是推荐使用支持动画的视图和组件。
 
-Activity上面将绑定一个View，采用渲染序列的方式渲染，View可以操纵该渲染序列。
-这个View将通过函数式（声明式）的方式完成定义，以此达成数据绑定。
+Activity上有个至少且必须实现的重写`view`，改方法重写接受一个元组，包含屏幕的宽和高，要求返回一个视图（`View`）的实现。理论上你在实现view的时候可以选择渲染所有内容，但是我们还是推荐你使用`View -> DrawAble`的架构，或者直接使用`BasicView`实现的无布局渲染序列。
 
 ## Engine 引擎
 

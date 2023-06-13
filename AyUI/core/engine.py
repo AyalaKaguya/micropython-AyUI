@@ -50,16 +50,15 @@ class Engine:
         instance = Instance(activity_name)      # 创建一个Instance用于保存信息
         actctrl = ActivityCtrl(self)            # 创建一个Activity控制器
         evtctrl = EventCtrl(instance)           # 创建一个Event控制器
-        # 实例化获取的Activity类并链接到Instance
         instance.activity = activity(actctrl, evtctrl)
+        self.instances.append(instance)
+        instance.activity.onCreate()
         view = instance.activity.view(
             space=(self.width, self.height)
         )
         assert isinstance(view, View), TypeError(
             "[ERR] in activity {}, view() returned an incorrect type".format(activity_name))
         instance.view = view
-        self.instances.append(instance)         # 添加Instance到列表
-        instance.activity.onCreate()
 
     def destroy_activity(self, index: int = None):
         """删除一个activity"""
@@ -123,8 +122,10 @@ class Engine:
         if len(self.instances) == 0:
             return
         # Activity 渲染阶段
+        self.instances[-1].activity.beforeFrame()
         self.instances[-1].view.calc(f_space=(self.width, self.height))
         self.instances[-1].view.draw(self.framebuf)
+        self.instances[-1].activity.afterFrame()
 
     async def start(self, target_fps):
         """启动UI线程和帧循环"""

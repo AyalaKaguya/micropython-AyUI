@@ -23,6 +23,8 @@ class Builder():
         return self
 
     def set_size(self, size_w, size_h):
+        if size_w * size_h > 8192:
+            print("[WARN]:Excessive size can lead to excessive memory usage, consider implementing FrameBuffer directly on the screen driver.")
         self.size = (size_w, size_h)
         return self
 

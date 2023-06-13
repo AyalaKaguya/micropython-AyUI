@@ -22,4 +22,13 @@ class Activity:
         pass
 
     def view(self, space):
+        """Activity的视图模型"""
         return View()
+    
+    def beforeFrame(self):
+        """每一帧绘图前执行"""
+        pass
+    
+    def afterFrame(self):
+        """每一帧绘图后执行"""
+        pass
