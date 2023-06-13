@@ -22,8 +22,6 @@ Activity将会收到以下方法：
 
 Activity事件重写一共有三种：`onCreate`、`onDestroy`和`onStart`，分别对应Activity创建、Activity销毁和Activity启动，其中`onCreate`事件和`onDestroy`事件在整个Activity生命周期内只会被调用一次，而`onStart`事件只要切换到当前Activity就会触发一次。
 
-Activity只能监听事件，不能创建事件。
-
 **TODO**: 绘图部分尚未完成
 
 Activity上面将绑定一个View，采用渲染序列的方式渲染，View可以操纵该渲染序列。
@@ -98,7 +96,7 @@ uasyncio.run(engine.start(target_fps= 20))
 class MainActivity(Activity):
     def onCreate(self):
         print("MainActivity Create")
-        self.event.on("click", )
+        self.event.on("click", self.onClick)
         
     def onStart(self):
         print("MainActivity Start")
