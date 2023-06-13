@@ -1,4 +1,4 @@
-from AyUI import Event
+from AyUI.core.event import Event
 from AyUI.core.instance import Instance
 
 class ActivityCtrl:

@@ -1,5 +1,5 @@
 from AyUI.core.control import ActivityCtrl, EventCtrl
-from AyUI import View
+from AyUI.core.view import View
 
 
 class Activity:

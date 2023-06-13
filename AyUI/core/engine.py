@@ -2,9 +2,9 @@ import uasyncio
 import time
 import gc
 
-from AyUI import Event
-from AyUI import Activity
-from AyUI import View
+from AyUI.core.event import Event
+from AyUI.core.activity import Activity
+from AyUI.core.engine import View
 from AyUI.core.instance import Instance
 from AyUI.core.control import ActivityCtrl, EventCtrl
 
