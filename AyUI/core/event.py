@@ -5,6 +5,8 @@ class Event:
     PUSH_ACTIVITY = const(0x00)
     POP_ACTIVITY = const(0x01)
     CHANGE_ACTIVITY = const(0x02)
+    
+    OVERLOAD = const("overload")
 
     BUTTON_CLICK = const("click")
 

@@ -8,6 +8,7 @@ from AyUI.core.view import View
 from AyUI.core.instance import Instance
 from AyUI.core.control import ActivityCtrl, EventCtrl
 
+
 class Engine:
     """AyUI渲染引擎"""
     enable = True
@@ -140,6 +141,8 @@ class Engine:
                 frame_total = time.ticks_diff(time.ticks_ms(), frame_start)
                 if frame_total > frame_target:
                     print("[WARN] Can`t keep up, is it overloaded?")
+                    self.commit(
+                        Event(Event.OVERLOAD, (frame_total, frame_target, target_fps)))
                 else:
                     await uasyncio.sleep_ms(frame_target-frame_total)
             # 大概是每秒钟这里会被执行一次
